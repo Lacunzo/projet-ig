@@ -30,6 +30,9 @@
     <ClCompile Include="..\Src\TG3D.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="Personnage.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\CH3D.h">
@@ -45,6 +48,9 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\TG3D.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Personnage.h">
       <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>

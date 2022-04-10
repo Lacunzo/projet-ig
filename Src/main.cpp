@@ -1,3 +1,4 @@
+#include "../projet-ig/Personnage.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -5,10 +6,12 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+
 static int wTx = 480;
 static int wTy = 480;
 static int wPx = 50;
 static int wPy = 50;
+Personnage p = Personnage(2, 2);
 
 static void init(void) {
     glEnable(GL_LIGHTING);
@@ -20,7 +23,10 @@ static void init(void) {
 
 static void scene(void) {
     glPushMatrix();
-    glutSolidTorus(0.2, 0.5, 72, 180);
+    //glutSolidTorus(0.2, 0.5, 72, 180);
+    glRotatef(180, 0, 0, 1);
+    glRotatef(-240, 0, 1, 0);
+    p.corp(0.4F);
     glPopMatrix();
 }
 
@@ -102,6 +108,8 @@ int main(int argc, char** argv) {
     glutIdleFunc(idle);
     glutIdleFunc(NULL);
     glutDisplayFunc(display);
+
+    
     glutMainLoop();
     return(0);
 }
