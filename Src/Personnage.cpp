@@ -59,7 +59,7 @@ void Personnage::corp(float size) {
 
     //corps
     //glTranslatef(0, size * 1.5, 0);
-    glTranslatef(0, 0, 0);
+    //glTranslatef(0, 0, 0);
     glPushMatrix();
     
     glScalef(size/2, size, size/4);

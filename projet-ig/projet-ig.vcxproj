@@ -107,18 +107,17 @@
     <ClCompile Include="..\Src\Dir3D.cpp" />
     <ClCompile Include="..\Src\main.cpp" />
     <ClCompile Include="..\Src\Map.cpp" />
+    <ClCompile Include="..\Src\Personnage.cpp" />
     <ClCompile Include="..\Src\Pos3D.cpp" />
-    <ClCompile Include="..\Src\testMain.cpp" />
     <ClCompile Include="..\Src\TG3D.cpp" />
-    <ClCompile Include="Personnage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\CH3D.h" />
     <ClInclude Include="..\Header\Dir3D.h" />
     <ClInclude Include="..\Header\Map.h" />
+    <ClInclude Include="..\Header\Personnage.h" />
     <ClInclude Include="..\Header\Pos3D.h" />
     <ClInclude Include="..\Header\TG3D.h" />
-    <ClInclude Include="Personnage.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\Lib\glut32.ms.lib" />

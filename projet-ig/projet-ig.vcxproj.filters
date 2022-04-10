@@ -24,13 +24,10 @@
     <ClCompile Include="..\Src\Pos3D.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\testMain.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Src\TG3D.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="Personnage.cpp">
+    <ClCompile Include="..\Src\Personnage.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,7 +47,7 @@
     <ClInclude Include="..\Header\TG3D.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="Personnage.h">
+    <ClInclude Include="..\Header\Personnage.h">
       <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>

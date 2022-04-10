@@ -1,4 +1,4 @@
-#include "../projet-ig/Personnage.h"
+#include "Personnage.h"
 #include <stdlib.h>
 #include <stdio.h>
 

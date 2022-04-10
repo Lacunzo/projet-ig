@@ -12,7 +12,6 @@ public:
 	Personnage(int posX, int posY);
 	virtual ~Personnage(void);
 
-	void generate(int x, int y);
 	void bras(float angleAvantBras, float angleBras, float size);
 	void corp(float size);
 	void jambe(float angleCuisse, float angleTibia, float size);
