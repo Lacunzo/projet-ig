@@ -1,19 +1,31 @@
 #include "Personnage.h"
+#include "Map.h"
+#include "Room.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 #include <GL/glut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+constexpr int FPS = 60;
 
-static int wTx = 480;
-static int wTy = 480;
-static int wPx = 50;
-static int wPy = 50;
+static int wTx = 800;
+static int wTy = 600;
+static int wPx = (glutGet(GLUT_SCREEN_WIDTH) - wTx) / 2;
+static int wPy = (glutGet(GLUT_SCREEN_HEIGHT) - wTy) / 2;
+static int initial_time = time(NULL);
+static int final_time;
+static int frame_count;
+
+static bool animation = false;
+
 Personnage p = Personnage(2, 2);
+Room r = Room(10, 10, 0);
 
 static void init(void) {
+	glLightf(GL_LIGHT0, GL_AMBIENT, 0.5);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     glDepthFunc(GL_LESS);
@@ -23,15 +35,20 @@ static void init(void) {
 
 static void scene(void) {
     glPushMatrix();
-    //glutSolidTorus(0.2, 0.5, 72, 180);
+	/*
     glRotatef(180, 0, 0, 1);
     glRotatef(-240, 0, 1, 0);
     p.corp(0.4F);
+	*/
+    r.draw(0, 0, 0);
     glPopMatrix();
 }
 
 static void display(void) {
-    printf("D\n");
+    if (animation) {
+        glRotatef(1, 1, 0, 0);
+    }
+	
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
     scene();
@@ -41,6 +58,14 @@ static void display(void) {
     int error = glGetError();
     if (error != GL_NO_ERROR)
         printf("Attention erreur %d\n", error);
+	
+    frame_count++;
+	final_time = time(NULL);
+	if (final_time - initial_time > 0) {
+		cout << "FPS : " << frame_count / (final_time - initial_time) << endl;
+		frame_count = 0;
+		initial_time = final_time;
+	}
 }
 
 static void reshape(int wx, int wy) {
@@ -50,22 +75,26 @@ static void reshape(int wx, int wy) {
     glViewport(0, 0, wx, wy);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+    glOrtho(-15.0, 15.0, -15.0, 15.0, -15.0, 20.0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+    gluLookAt(0, 10, 5, 0, 0, 0, 0, 1, 0);
 }
 
-static void idle(void) {
-    printf("I\n");
+static void idle(int) {
     glutPostRedisplay();
+    glutTimerFunc((1000 / FPS), idle, 0);
 }
 
 static void keyboard(unsigned char key, int x, int y) {
     printf("K  %4c %4d %4d\n", key, x, y);
     switch (key) {
-    case 0x1B:
-        exit(0);
-        break;
+        case 'a':
+            animation = !animation;
+            break;
+        case 0x1B:
+            exit(0);
+            break;
     }
 }
 
@@ -103,13 +132,20 @@ int main(int argc, char** argv) {
     glutSpecialFunc(special);
     glutMouseFunc(mouse);
     glutMotionFunc(mouseMotion);
-
+    glutTimerFunc((1000/FPS), idle, 0);
     glutReshapeFunc(reshape);
-    glutIdleFunc(idle);
-    glutIdleFunc(NULL);
     glutDisplayFunc(display);
 
     
     glutMainLoop();
-    return(0);
+    return(EXIT_SUCCESS);
 }
+
+/* TEST CLI
+int main(int argc, char** argv) {
+	Map map = Map();
+    map.generate();
+    map.print();
+    return(EXIT_SUCCESS);
+}
+*/

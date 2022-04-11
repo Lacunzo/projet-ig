@@ -30,6 +30,12 @@
     <ClCompile Include="..\Src\Personnage.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Src\Room.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Cell.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\CH3D.h">
@@ -48,6 +54,12 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Personnage.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Room.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Cell.h">
       <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>

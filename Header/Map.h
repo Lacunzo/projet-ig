@@ -1,22 +1,22 @@
-#ifndef __Map__
+#pragma once
 
-#define __Map__
+#include "Cell.h"
 #include <iostream>
+#include <vector>
+using namespace std;
 
-class Map{
-public:
-	const static int SIZE_X = 50;
-	const static int SIZE_Y = 30;
-	int map[SIZE_Y][SIZE_X];
-public:
-	Map(void);
-	Map(int i);
-	Map(Map* m);
-	virtual ~Map(void);
+class Map {
+	public:
+		int width;
+		int height;
+		vector<vector<Cell>> map;
+		
+		Map();
+		Map(int width, int height);
+		virtual ~Map();
 
-	void generate(int x, int y);
-	void printConsole();
-//private:
-	void createRoom(int posX, int posY, int sizeX, int sizeY);
+		void generate();
+		void print();
+	private:
+		void createRoom(int posX, int posY, int sizeX, int sizeY);
 };
-#endif
