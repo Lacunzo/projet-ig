@@ -22,7 +22,7 @@ static int frame_count;
 static bool animation = false;
 
 Personnage p = Personnage(2, 2);
-Room r = Room(10, 10, 0);
+Room r = Room(20, 30, 0);
 
 static void init(void) {
 	glLightf(GL_LIGHT0, GL_AMBIENT, 0.5);

@@ -44,23 +44,18 @@ void Room::draw(int x, int y, int z) {
 	glEnd();
 	glNormal3f(0, 0, 1);
 	// Draw door
-	glBegin(GL_QUAD_STRIP);
+	glBegin(GL_TRIANGLE_STRIP);
 		int doorSize = this->length / 4;
 		int doorHeight = this->HEIGHT / 2;
 
 		glVertex3d(x - doorSize, y, z - realLength);
 		glVertex3d(x - realWidth, y, z - realLength);
-		glVertex3d(x - realWidth, y + this->HEIGHT, z - realLength);
 		glVertex3d(x - doorSize, y + doorHeight, z - realLength);
-		glVertex3d(x + doorSize, y + doorHeight, z - realLength);
+		glVertex3d(x - realWidth, y + this->HEIGHT, z - realLength);
 		glVertex3d(x + realWidth, y + this->HEIGHT, z - realLength);
+		glVertex3d(x + doorSize, y + doorHeight, z - realLength);
 		glVertex3d(x + realWidth, y, z - realLength);
 		glVertex3d(x + doorSize, y, z - realLength);
-		
-		
-		
-		
-		
 	glEnd();
 	glPopMatrix();
 }
