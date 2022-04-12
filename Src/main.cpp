@@ -22,6 +22,8 @@ static int frame_count;
 static bool animation = false;
 
 Personnage p = Personnage(2, 2, 2);
+bool avancerPerso = false;
+int nbFrameOffset = 25;
 Room r = Room(20, 30, 0);
 
 static void init(void) {
@@ -35,14 +37,28 @@ static void init(void) {
 
 static void scene(void) {
     glPushMatrix();
-	/*
-    glRotatef(180, 0, 0, 1);
-    glRotatef(-240, 0, 1, 0);
-	*/
+    //juste pour la vue
+    glRotatef(30, 0, 1, 0);
     glRotatef(-20, 1, 0, 0);
+    //
+
+    //animation idle ou avancer
+    if (avancerPerso) {
+        p.avancer();
+        nbFrameOffset = 0;
+    }
+    else {
+        if (nbFrameOffset < 25) {
+            p.avancer();
+            nbFrameOffset++;
+        }
+        else {
+            p.idle();
+        }
+    }
     
+    avancerPerso = false;
     
-    p.avancer();
     r.draw(0, 0, 0);
     glPopMatrix();
 }
@@ -105,10 +121,16 @@ static void special(int specialKey, int x, int y) {
     printf("S  %4d %4d %4d\n", specialKey, x, y);
     switch (specialKey) {
     case GLUT_KEY_UP:
-        p.avancer();
+        avancerPerso = true;
         break;
     case GLUT_KEY_DOWN:
-        p.avancer();
+        avancerPerso = true;
+        break;
+    case GLUT_KEY_LEFT:
+        avancerPerso = true;
+        break;
+    case GLUT_KEY_RIGHT:
+        avancerPerso = true;
         break;
     }
     glutPostRedisplay();

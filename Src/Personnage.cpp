@@ -37,11 +37,11 @@ void Personnage::idle() {
 
 void Personnage::avancer(){
 
-    // variable montant à 100 puis descendant à -100
-    if (nbFrameAnimation > 100) {
+    // variable montant à 10 puis descendant à -10
+    if (nbFrameAnimation > 10) {
         animationUp = false;
     }
-    if (nbFrameAnimation < -100) {
+    if (nbFrameAnimation < -10) {
         animationUp = true;
     }
     if (animationUp) {
@@ -56,10 +56,10 @@ void Personnage::avancer(){
     this->angleAvantBras2 = 110;
     
     
-    this->angleBras1 = 2 * nbFrameAnimation;
+    this->angleBras1 = 8 * nbFrameAnimation;
     this->angleBras2 = -this->angleBras1;
 
-    this->angleJambe1 = nbFrameAnimation;
+    this->angleJambe1 = 8 * nbFrameAnimation;
     this->angleJambe1T = -30;
     this->angleJambe2 = -angleJambe1;
     this->angleJambe2T = -45;
@@ -117,7 +117,6 @@ void Personnage::corps(float size) {
     //repositionnement
     glRotatef(180,0,0,1);
     glTranslatef(0, -size * 1.5, 0);
-    //glTranslatef(0, 0, 0);
 
     //corps
     glRotatef(this->angleCorps,1,0,0);
