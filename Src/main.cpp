@@ -100,6 +100,15 @@ static void keyboard(unsigned char key, int x, int y) {
 
 static void special(int specialKey, int x, int y) {
     printf("S  %4d %4d %4d\n", specialKey, x, y);
+    switch (specialKey) {
+    case GLUT_KEY_UP:
+        p.avancer();
+        break;
+    case GLUT_KEY_DOWN:
+        p.avancer();
+        break;
+    }
+    glutPostRedisplay();
 }
 
 static void mouse(int button, int state, int x, int y) {
