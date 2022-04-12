@@ -3,10 +3,10 @@
 #include <GL/glut.h>
 
 Personnage::Personnage(void) {}
-Personnage::Personnage(int posX, int posY) {
+Personnage::Personnage(int posX, int posY, float taille) {
 	this->POSX = posX;
 	this->POSY = posY;
-    this->taille = 0.4F;
+    this->taille = taille;
     this->angleCorps = 0;
     this->angleAvantBras1 = 10;
     this->angleAvantBras2 = 10;
@@ -114,10 +114,12 @@ void Personnage::jambe(float angleCuisse, float angleTibia, float size) {
 //créé un personnage selon une taille et l'angle du corps
 void Personnage::corps(float size) {
     glPushMatrix();
+    //repositionnement
+    glRotatef(180,0,0,1);
+    glTranslatef(0, -size * 1.5, 0);
+    //glTranslatef(0, 0, 0);
 
     //corps
-    //glTranslatef(0, size * 1.5, 0);
-    //glTranslatef(0, 0, 0);
     glRotatef(this->angleCorps,1,0,0);
     glPushMatrix();
     

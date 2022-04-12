@@ -21,7 +21,7 @@ static int frame_count;
 
 static bool animation = false;
 
-Personnage p = Personnage(2, 2);
+Personnage p = Personnage(2, 2, 2);
 Room r = Room(20, 30, 0);
 
 static void init(void) {
@@ -38,8 +38,11 @@ static void scene(void) {
 	/*
     glRotatef(180, 0, 0, 1);
     glRotatef(-240, 0, 1, 0);
-    p.corp(0.4F);
 	*/
+    glRotatef(-20, 1, 0, 0);
+    
+    
+    p.avancer();
     r.draw(0, 0, 0);
     glPopMatrix();
 }

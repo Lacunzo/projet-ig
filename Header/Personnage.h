@@ -23,7 +23,7 @@ private:
 	int nbFrameAnimation;
 public:
 	Personnage(void);
-	Personnage(int posX, int posY);
+	Personnage(int posX, int posY, float taille);
 	virtual ~Personnage(void);
 
 	void idle();
