@@ -82,7 +82,7 @@ void Personnage::avancer(int directionPersonnage){
     this->angleBras1 = 8 * nbFrameAnimation;
     this->angleBras2 = -this->angleBras1;
 
-    this->angleJambe1 = 8 * nbFrameAnimation;
+    this->angleJambe1 = -8 * nbFrameAnimation;
     this->angleJambe1T = -30;
     this->angleJambe2 = -angleJambe1;
     this->angleJambe2T = -45;

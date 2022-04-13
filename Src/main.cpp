@@ -109,7 +109,7 @@ static void idle(int) {
 }
 
 static void keyboard(unsigned char key, int x, int y) {
-    printf("K  %4c %4d %4d\n", key, x, y);
+    //printf("K  %4c %4d %4d\n", key, x, y);
     switch (key) {
         case 'a':
             animation = !animation;
@@ -121,7 +121,7 @@ static void keyboard(unsigned char key, int x, int y) {
 }
 
 static void special(int specialKey, int x, int y) {
-    printf("S  %4d %4d %4d\n", specialKey, x, y);
+    //printf("S  %4d %4d %4d\n", specialKey, x, y);
     switch (specialKey) {
     case GLUT_KEY_UP:
         avancerPerso = true;
@@ -148,15 +148,15 @@ static void special(int specialKey, int x, int y) {
 }
 
 static void mouse(int button, int state, int x, int y) {
-    printf("M  %4d %4d %4d %4d\n", button, state, x, y);
+    //printf("M  %4d %4d %4d %4d\n", button, state, x, y);
 }
 
 static void mouseMotion(int x, int y) {
-    printf("MM %4d %4d\n", x, y);
+    //printf("MM %4d %4d\n", x, y);
 }
 
 static void passiveMouseMotion(int x, int y) {
-    printf("PM %4d %4d\n", x, y);
+    //printf("PM %4d %4d\n", x, y);
 }
 
 static void clean(void) {
