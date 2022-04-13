@@ -5,8 +5,8 @@
 
 class Personnage {
 public:
-	int POSX;
-	int POSY;
+	float POSX;
+	float POSY;
 	float taille;
 private:
 	float angleJambe1;
@@ -23,11 +23,12 @@ private:
 	int nbFrameAnimation;
 public:
 	Personnage(void);
-	Personnage(int posX, int posY, float taille);
+	Personnage(float posX, float posY, float taille);
 	virtual ~Personnage(void);
 
-	void idle();
-	void avancer();
+	void idle(int directionPersonnage);
+	void avancer(int directionPersonnage);
+	void deplacement(float x, float y);
 private:
 	void bras(float angleAvantBras, float angleBras, float size);
 	void corps(float size);

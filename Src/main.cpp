@@ -21,9 +21,12 @@ static int frame_count;
 
 static bool animation = false;
 
+//personnage
 Personnage p = Personnage(2, 2, 2);
 bool avancerPerso = false;
 int nbFrameOffset = 25;
+int directionPersonnage = 0;
+
 Room r = Room(20, 30, 0);
 
 static void init(void) {
@@ -44,16 +47,16 @@ static void scene(void) {
 
     //animation idle ou avancer
     if (avancerPerso) {
-        p.avancer();
+        p.avancer(directionPersonnage);
         nbFrameOffset = 0;
     }
     else {
         if (nbFrameOffset < 25) {
-            p.avancer();
+            p.avancer(directionPersonnage);
             nbFrameOffset++;
         }
         else {
-            p.idle();
+            p.idle(directionPersonnage);
         }
     }
     
@@ -122,15 +125,23 @@ static void special(int specialKey, int x, int y) {
     switch (specialKey) {
     case GLUT_KEY_UP:
         avancerPerso = true;
+        directionPersonnage = 0;
+        p.deplacement(0, -0.2);
         break;
     case GLUT_KEY_DOWN:
         avancerPerso = true;
+        directionPersonnage = 180;
+        p.deplacement(0, 0.2);
         break;
     case GLUT_KEY_LEFT:
         avancerPerso = true;
+        directionPersonnage = 90;
+        p.deplacement(-0.2,0);
         break;
     case GLUT_KEY_RIGHT:
         avancerPerso = true;
+        directionPersonnage = -90;
+        p.deplacement(0.2, 0);
         break;
     }
     glutPostRedisplay();
@@ -160,7 +171,7 @@ int main(int argc, char** argv) {
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
     glutInitWindowSize(wTx, wTy);
     glutInitWindowPosition(wPx, wPy);
-    glutCreateWindow("Gestion événementielle de GLUt");
+    glutCreateWindow("élu meilleur jeu 2022");
     init();
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(special);

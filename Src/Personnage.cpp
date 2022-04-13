@@ -2,8 +2,23 @@
 #include <GL/gl.h>
 #include <GL/glut.h>
 
-Personnage::Personnage(void) {}
-Personnage::Personnage(int posX, int posY, float taille) {
+Personnage::Personnage(void) {
+    this->POSX = 0;
+    this->POSY = 0;
+    this->taille = 2;
+    this->angleCorps = 0;
+    this->angleAvantBras1 = 10;
+    this->angleAvantBras2 = 10;
+    this->angleBras1 = -5;
+    this->angleBras2 = -5;
+    this->angleJambe1 = 0;
+    this->angleJambe1T = 0;
+    this->angleJambe2 = 0;
+    this->angleJambe2T = 0;
+    animationUp = true;
+    nbFrameAnimation = 0;
+}
+Personnage::Personnage(float posX, float posY, float taille) {
 	this->POSX = posX;
 	this->POSY = posY;
     this->taille = taille;
@@ -22,7 +37,11 @@ Personnage::Personnage(int posX, int posY, float taille) {
 }
 Personnage::~Personnage(void) {}
 
-void Personnage::idle() {
+void Personnage::idle(int directionPersonnage) {
+    glPushMatrix();
+    glTranslatef(POSX, 0, POSY);
+    glRotatef(directionPersonnage, 0, 1, 0);
+
     this->angleCorps = 0;
     this->angleAvantBras1 = 0;
     this->angleAvantBras2 = 0;
@@ -33,9 +52,13 @@ void Personnage::idle() {
     this->angleJambe2 = 0;
     this->angleJambe2T = 0;
     corps(this->taille);
+    glPopMatrix();
 }
 
-void Personnage::avancer(){
+void Personnage::avancer(int directionPersonnage){
+    glPushMatrix();
+    glTranslatef(POSX, 0, POSY);
+    glRotatef(directionPersonnage, 0, 1, 0);
 
     // variable montant à 10 puis descendant à -10
     if (nbFrameAnimation > 10) {
@@ -64,6 +87,7 @@ void Personnage::avancer(){
     this->angleJambe2 = -angleJambe1;
     this->angleJambe2T = -45;
     corps(this->taille);
+    glPopMatrix();
 }
 
 /*créé un bras et un avant bras selon deux angles et une taille*/
@@ -166,4 +190,9 @@ void Personnage::corps(float size) {
     glPopMatrix();
    
     glPopMatrix();
+}
+
+void Personnage::deplacement(float x, float y) {
+    this->POSX += x;
+    this->POSY += y;
 }
