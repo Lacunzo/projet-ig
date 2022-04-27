@@ -1,6 +1,9 @@
 #include "Personnage.h"
 #include <GL/gl.h>
 #include <GL/glut.h>
+#include <math.h>
+
+
 
 Personnage::Personnage(void) {
     this->POSX = 0;
@@ -17,11 +20,13 @@ Personnage::Personnage(void) {
     this->angleJambe2T = 0;
     animationUp = true;
     nbFrameAnimation = 0;
+    this->direction = 0;
 }
 Personnage::Personnage(float posX, float posY, float taille) {
 	this->POSX = posX;
 	this->POSY = posY;
     this->taille = taille;
+    this->direction = 0;
     this->angleCorps = 0;
     this->angleAvantBras1 = 10;
     this->angleAvantBras2 = 10;
@@ -37,10 +42,10 @@ Personnage::Personnage(float posX, float posY, float taille) {
 }
 Personnage::~Personnage(void) {}
 
-void Personnage::idle(int directionPersonnage) {
+void Personnage::idle() {
     glPushMatrix();
     glTranslatef(POSX, 0, POSY);
-    glRotatef(directionPersonnage, 0, 1, 0);
+    glRotatef(direction, 0, 1, 0);
 
     this->angleCorps = 0;
     this->angleAvantBras1 = 0;
@@ -55,10 +60,10 @@ void Personnage::idle(int directionPersonnage) {
     glPopMatrix();
 }
 
-void Personnage::avancer(int directionPersonnage){
+void Personnage::avancer(){
     glPushMatrix();
     glTranslatef(POSX, 0, POSY);
-    glRotatef(directionPersonnage, 0, 1, 0);
+    glRotatef(direction, 0, 1, 0);
 
     // variable montant à 10 puis descendant à -10
     if (nbFrameAnimation > 10) {
@@ -192,7 +197,16 @@ void Personnage::corps(float size) {
     glPopMatrix();
 }
 
-void Personnage::deplacement(float x, float y) {
-    this->POSX += x;
-    this->POSY += y;
+void Personnage::deplacement(float dist) {
+
+    this->POSX += sin(direction * PI / 180) * dist;
+    this->POSY += cos(direction * PI / 180) * dist;
+}
+
+float Personnage::getPosX() { return POSX; };
+float Personnage::getPosY() { return POSY; };
+float Personnage::getDir() { return direction; };
+
+void Personnage::changerDirection(float changementDir) {
+    this->direction += changementDir;
 }

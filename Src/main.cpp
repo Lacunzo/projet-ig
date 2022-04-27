@@ -22,10 +22,10 @@ static int frame_count;
 static bool animation = false;
 
 //personnage
-Personnage p = Personnage(2, 2, 2);
-bool avancerPerso = false;
+float TAILLE_PERSO = 2;
+Personnage p = Personnage(0, 5, TAILLE_PERSO);
+bool animationAvancerPerso = false;
 int nbFrameOffset = 25;
-int directionPersonnage = 0;
 
 Room r = Room(20, 30, 0);
 
@@ -40,41 +40,46 @@ static void init(void) {
 
 static void scene(void) {
     glPushMatrix();
-    //juste pour la vue
-    glRotatef(30, 0, 1, 0);
-    glRotatef(-20, 1, 0, 0);
-    //
+    glutSolidSphere(1, 10, 10);
 
     //animation idle ou avancer
-    if (avancerPerso) {
-        p.avancer(directionPersonnage);
+    if (animationAvancerPerso) {
+        p.avancer();
         nbFrameOffset = 0;
     }
     else {
         if (nbFrameOffset < 25) {
-            p.avancer(directionPersonnage);
+            p.avancer();
             nbFrameOffset++;
         }
         else {
-            p.idle(directionPersonnage);
+            p.idle();
         }
     }
     
-    avancerPerso = false;
+    animationAvancerPerso = false;
     
     r.draw(0, 0, 0);
     glPopMatrix();
 }
 
-static void display(void) {
+static void displayPOV(void) {
     if (animation) {
-        glRotatef(1, 1, 0, 0);
+        glRotatef(1, 0, 1, 0);
     }
 	
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
     glPushMatrix();
+    gluLookAt(
+        p.getPosX(), 2.2*TAILLE_PERSO, p.getPosY(),
+        p.getPosX() - sin(p.getDir() * PI / 180), 2.1 * TAILLE_PERSO, p.getPosY() - cos(p.getDir() * PI / 180),
+        0, 1, 0);
+
     scene();
     glPopMatrix();
+
     glFlush();
     glutSwapBuffers();
     int error = glGetError();
@@ -90,6 +95,35 @@ static void display(void) {
 	}
 }
 
+static void displayTop(void) {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+    glPushMatrix();
+    gluLookAt(
+        p.getPosX(), 15 * TAILLE_PERSO, p.getPosY(),
+        p.getPosX() - sin(p.getDir() * PI / 180), 0, p.getPosY() - cos(p.getDir() * PI / 180),
+        0, 1, 0);
+
+    scene();
+    glPopMatrix();
+
+    glFlush();
+    glutSwapBuffers();
+    int error = glGetError();
+    if (error != GL_NO_ERROR)
+        printf("Attention erreur %d\n", error);
+
+    frame_count++;
+    final_time = time(NULL);
+    if (final_time - initial_time > 0) {
+        cout << "FPS : " << frame_count / (final_time - initial_time) << endl;
+        frame_count = 0;
+        initial_time = final_time;
+    }
+}
+
+
 static void reshape(int wx, int wy) {
     printf("R\n");
     wTx = wx;
@@ -97,10 +131,18 @@ static void reshape(int wx, int wy) {
     glViewport(0, 0, wx, wy);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(-15.0, 15.0, -15.0, 15.0, -15.0, 20.0);
+    double ratio = (double)wx / (double)wy;
+    if (ratio > 1) {
+        gluPerspective(70, ratio, 1, 50);
+    }
+    else {
+        gluPerspective(70 / ratio, ratio, 1, 50);
+    }
+    //glOrtho(-15.0, 15.0, -15*wy/wx, 15*wy/wx, -15.0, 20.0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(0, 10, 5, 0, 0, 0, 0, 1, 0);
+    //glFrustum(-150.0, 150.0, -150 * wy / wx, 150 * wy / wx, -15.0, 200.0);
+    //gluLookAt(-2, 2.2 * TAILLE_PERSO, 0, 0, 0, 0, 0, 1, 0);
 }
 
 static void idle(int) {
@@ -124,24 +166,18 @@ static void special(int specialKey, int x, int y) {
     //printf("S  %4d %4d %4d\n", specialKey, x, y);
     switch (specialKey) {
     case GLUT_KEY_UP:
-        avancerPerso = true;
-        directionPersonnage = 0;
-        p.deplacement(0, -0.2);
+        animationAvancerPerso = true;
+        p.deplacement(-0.4);
         break;
     case GLUT_KEY_DOWN:
-        avancerPerso = true;
-        directionPersonnage = 180;
-        p.deplacement(0, 0.2);
+        animationAvancerPerso = true;
+        p.deplacement(0.4);
         break;
     case GLUT_KEY_LEFT:
-        avancerPerso = true;
-        directionPersonnage = 90;
-        p.deplacement(-0.2,0);
+        p.changerDirection(5);
         break;
     case GLUT_KEY_RIGHT:
-        avancerPerso = true;
-        directionPersonnage = -90;
-        p.deplacement(0.2, 0);
+        p.changerDirection(-5);
         break;
     }
     glutPostRedisplay();
@@ -179,9 +215,22 @@ int main(int argc, char** argv) {
     glutMotionFunc(mouseMotion);
     glutTimerFunc((1000/FPS), idle, 0);
     glutReshapeFunc(reshape);
-    glutDisplayFunc(display);
+    glutDisplayFunc(displayPOV);
 
+    //deuxième fenètre
     
+    int w2 = glutCreateWindow("top view");
+    init();
+    glutKeyboardFunc(keyboard);
+    glutSpecialFunc(special);
+    glutMouseFunc(mouse);
+    glutMotionFunc(mouseMotion);
+    glutTimerFunc((1000 / FPS), idle, 0);
+    glutReshapeFunc(reshape);
+    glutDisplayFunc(displayTop);
+    
+
+
     glutMainLoop();
     return(EXIT_SUCCESS);
 }

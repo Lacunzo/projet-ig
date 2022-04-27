@@ -3,12 +3,15 @@
 #define __Personnage__
 #include <iostream>
 
+#define PI 3.14159265
+
 class Personnage {
-public:
+private:
 	float POSX;
 	float POSY;
 	float taille;
-private:
+	float direction;
+
 	float angleJambe1;
 	float angleJambe1T;
 	float angleJambe2;
@@ -26,9 +29,13 @@ public:
 	Personnage(float posX, float posY, float taille);
 	virtual ~Personnage(void);
 
-	void idle(int directionPersonnage);
-	void avancer(int directionPersonnage);
-	void deplacement(float x, float y);
+	void idle();
+	void avancer();
+	void deplacement(float dist);
+	float getPosX();
+	float getPosY();
+	float getDir();
+	void changerDirection(float changementDir);
 private:
 	void bras(float angleAvantBras, float angleBras, float size);
 	void corps(float size);
