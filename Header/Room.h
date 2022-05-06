@@ -9,6 +9,7 @@ class Room {
 		int nbPillar;
 		
 		Room(int width, int length, int nbPillar);
+		Room();
 		virtual ~Room();
 		
 		void draw(int x, int y, int z);

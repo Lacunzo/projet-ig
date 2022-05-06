@@ -198,9 +198,8 @@ static void passiveMouseMotion(int x, int y) {
 static void clean(void) {
     printf("Bye\n");
 }
-
+/*
 int main(int argc, char** argv) {
-
     atexit(clean);
 
     glutInit(&argc, argv);
@@ -216,8 +215,6 @@ int main(int argc, char** argv) {
     glutTimerFunc((1000/FPS), idle, 0);
     glutReshapeFunc(reshape);
     glutDisplayFunc(displayPOV);
-
-    //deuxième fenètre
     
     int w2 = glutCreateWindow("top view");
     init();
@@ -229,17 +226,13 @@ int main(int argc, char** argv) {
     glutReshapeFunc(reshape);
     glutDisplayFunc(displayTop);
     
-
-
     glutMainLoop();
     return(EXIT_SUCCESS);
 }
-
-/* TEST CLI
+*/
 int main(int argc, char** argv) {
-	Map map = Map();
-    map.generate();
+    Map map = Map();
+    map.generate(1);
     map.print();
     return(EXIT_SUCCESS);
 }
-*/

@@ -20,8 +20,35 @@ Map::Map(): width(20), height(20) {
 Map::Map(int width, int height): width(width), height(height) {}
 Map::~Map(){}
 
-void Map::generate() {
+void Map::generate(int nbRoom) {
+	while(nbRoom != 0) {
+		int randomX = rand() % (this->width - 1) + 1;
+		int randomY = rand() % (this->height - 1) + 1;
+		int randomWidth = rand() % (this->width - 1) + randomX;
+		int randomHeight = rand() % (this->height - 1) + randomY;
+		
+		createRoom(randomX, randomY, randomWidth, randomHeight);
+	}
+}
+
+void Map::createRoom(int x, int y, int width, int height) {
+	if (x <= 0 || y <= 0 || x + width >= this->width || y + height >= this->height) {
+		cout << "Room is out of map" << endl;
+		return;
+	} else if (width - x <= 1 || height - y <= 1) {
+		cout << "Room is too small" << endl;
+		return;
+	}
 	
+	for (int i = x; i < x + width; i++) {
+		for (int j = y; j < y + height; j++) {
+			if (i == x || i == x + width - 1 || j == y || j == y + height - 1) {
+				map[i][j] = Cell::Wall;
+			} else {
+				map[i][j] = Cell::Floor;
+			}
+		}
+	}
 }
 
 void Map::print() {
