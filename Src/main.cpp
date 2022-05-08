@@ -27,7 +27,7 @@ Personnage p = Personnage(0, 5, TAILLE_PERSO);
 bool animationAvancerPerso = false;
 int nbFrameOffset = 25;
 
-Room r = Room(20, 30, 0);
+Map map = Map(50, 50);
 
 static void init(void) {
 	glLightf(GL_LIGHT0, GL_AMBIENT, 0.5);
@@ -40,8 +40,6 @@ static void init(void) {
 
 static void scene(void) {
     glPushMatrix();
-    glutSolidSphere(1, 10, 10);
-
     //animation idle ou avancer
     if (animationAvancerPerso) {
         p.avancer();
@@ -58,8 +56,9 @@ static void scene(void) {
     }
     
     animationAvancerPerso = false;
+	
+    map.createRooms();
     
-    r.draw(0, 0, 0);
     glPopMatrix();
 }
 
@@ -97,7 +96,6 @@ static void displayPOV(void) {
 
 static void displayTop(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 
     glPushMatrix();
     gluLookAt(
@@ -198,8 +196,9 @@ static void passiveMouseMotion(int x, int y) {
 static void clean(void) {
     printf("Bye\n");
 }
-/*
+
 int main(int argc, char** argv) {
+    map.print();
     atexit(clean);
 
     glutInit(&argc, argv);
@@ -227,12 +226,5 @@ int main(int argc, char** argv) {
     glutDisplayFunc(displayTop);
     
     glutMainLoop();
-    return(EXIT_SUCCESS);
-}
-*/
-int main(int argc, char** argv) {
-    Map map = Map();
-    map.generate(1);
-    map.print();
     return(EXIT_SUCCESS);
 }

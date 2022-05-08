@@ -1,8 +1,13 @@
 #include "Leaf.h"
 #include <stdlib.h>
+#include <iostream>
+using namespace std;
 
-Leaf::Leaf() : x(0), y(0), width(20), height(20) {}
-Leaf::Leaf(int x, int y, int width, int height) : x(x), y(y), width(width), height(height) {}
+Leaf::Leaf(int x, int y, int width, int height) : x(x), y(y), width(width), height(height) {
+    this->leftChild = nullptr;
+    this->rightChild = nullptr;
+    this->room = nullptr;
+}
 
 bool Leaf::split() {
     if (this->leftChild != nullptr || rightChild != nullptr) return false;
@@ -29,4 +34,21 @@ bool Leaf::split() {
     }
 	
     return true;
+}
+
+void Leaf::print() const {
+    cout << "Leaf: " << x << " " << y << " " << width << " " << height << endl;
+}
+
+void Leaf::prettyPrint() const {
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            if (i >= y && i < y + height && j >= x && j < x + width) {
+                cout << "*";
+            }
+            else {
+                cout << " ";
+            }
+        }
+    }
 }

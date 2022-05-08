@@ -8,17 +8,15 @@
 
 class Map {
 	public:
-		const unsigned int MAX_LEAF_SIZE = 20;
 		int width;
 		int height;
 		vector<Leaf> leafs;
 		
-		Map();
 		Map(int width, int height);
-		virtual ~Map();
-
-		void generate(int nbRoom);
-		void print();
+		
+		void createRooms();
+		void print() const;
 	private:
-		void createRoom(int posX, int posY, int sizeX, int sizeY);
+		const int MAX_LEAF_SIZE = 20;
+		void split_rec(Leaf *leaf, vector<Leaf> *leafs);
 };
