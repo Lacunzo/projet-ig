@@ -8,7 +8,14 @@
 #include <GL/glut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-
+static const GLfloat jaune[] = { 1.0F,1.0F,0.0F,1.0F };
+static const GLfloat rouge[] = { 1.0F,0.0F,0.0F,1.0F };
+static const GLfloat vert[] = { 0.0F,1.0F,0.0F,1.0F };
+static const GLfloat blanc[] = { 1.0F,1.0F,1.0F,1.0F };
+static const GLfloat brun[] = { 0.59F,0.34F,0.09F,1.0F };
+static const GLfloat noir[] = { 0.0F,0.0F,0.0F,1.0F };
+static const GLfloat gris[] = { 0.65F,0.65F,0.65F,1.0F };
+static const GLfloat blanc1[] = { 1.2F,1.2F,1.2F,1.0F };
 constexpr int FPS = 60;
 
 static int wTx = 800;
@@ -30,13 +37,45 @@ int nbFrameOffset = 25;
 Map map = Map(50, 50);
 
 static void init(void) {
-	glLightf(GL_LIGHT0, GL_AMBIENT, 0.5);
+    glLightf(GL_LIGHT0, GL_AMBIENT, 0.5);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
 }
+static void configurationLumieres(void) {
+    const GLfloat magenta[] = { 1.0F,0.0F,1.0F,1.0F };
+    const GLfloat rouge[] = { 1.0F,0.0F,0.0F,1.0F };
+    const GLfloat vert[] = { 0.0F,1.0F,0.0F,1.0F };
+    const GLfloat bleu[] = { 0.0F,0.0F,1.0F,1.0F };
+    const GLfloat jaune[] = { 1.0F,1.0F,0.0F,1.0F };
+    const GLfloat grisMoyen[] = { 0.5F,0.5F,0.5F,1.0F };
+    const GLfloat pos0[] = { 50.0F,27.0F,2.0F,1.0F };
+    glLightfv(GL_LIGHT0, GL_POSITION, pos0);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, rouge);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, noir);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, noir);
+    const GLfloat pos1[] = { -2.0F,0.0F,4.0F,0.0F };
+    glLightfv(GL_LIGHT1, GL_POSITION, pos1);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, vert);
+    glLightfv(GL_LIGHT1, GL_SPECULAR, blanc);
+    glLightfv(GL_LIGHT1, GL_AMBIENT, noir);
+    const GLfloat pos2[] = { -3.0F,-3.0F, 15.0F,1.0F };
+    const GLfloat dir2[] = { 3.0F, 3.0F,-10.0F };
+    glLightfv(GL_LIGHT2, GL_POSITION, pos2);
+    glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, dir2);
+    glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 20.0F);
+    glLightfv(GL_LIGHT2, GL_DIFFUSE, bleu);
+    glLightfv(GL_LIGHT2, GL_SPECULAR, jaune);
+    glLightfv(GL_LIGHT2, GL_AMBIENT, noir);
+    const GLfloat pos3[] = { 0.0F,0.0F,0.0F,1.0F };
+    glLightfv(GL_LIGHT3, GL_POSITION, pos3);
+    glLightfv(GL_LIGHT3, GL_DIFFUSE, noir);
+    glLightfv(GL_LIGHT3, GL_SPECULAR, noir);
+    glLightfv(GL_LIGHT3, GL_AMBIENT, magenta);
+}
+
 
 static void scene(void) {
     glPushMatrix();
@@ -54,11 +93,11 @@ static void scene(void) {
             p.idle();
         }
     }
-    
+
     animationAvancerPerso = false;
-	
+
     map.createRooms();
-    
+
     glPopMatrix();
 }
 
@@ -66,15 +105,35 @@ static void displayPOV(void) {
     if (animation) {
         glRotatef(1, 0, 1, 0);
     }
-	
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    const GLfloat light0_position[] = { 20.0,10.0,0.0,1.0 };
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, rouge);
+
+    const GLfloat light1_position[] = { 0.0,-50.0,350.0,1.0 };
+    glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, jaune);
+
+    const GLfloat light2_position[] = { 32.0,-18.0,110.0,1.0 };
+    glLightfv(GL_LIGHT2, GL_POSITION, light2_position);
+    glLightfv(GL_LIGHT2, GL_DIFFUSE, blanc);
+
+    const GLfloat light3_position[] = { 30.0f, 40.0f, 90.0f,0.0 };
+    glLightfv(GL_LIGHT3, GL_POSITION, light3_position);
+    glLightfv(GL_LIGHT3, GL_DIFFUSE, noir);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHT1);
+    glEnable(GL_LIGHT2);
+    glEnable(GL_LIGHT3);
+    glMatrixMode(GL_MODELVIEW);
 
     glPushMatrix();
     gluLookAt(
-        p.getPosX(), 2.2*TAILLE_PERSO, p.getPosY(),
+        p.getPosX(), 2.2 * TAILLE_PERSO, p.getPosY(),
         p.getPosX() - sin(p.getDir() * PI / 180), 2.1 * TAILLE_PERSO, p.getPosY() - cos(p.getDir() * PI / 180),
         0, 1, 0);
+    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
 
     scene();
     glPopMatrix();
@@ -84,24 +143,46 @@ static void displayPOV(void) {
     int error = glGetError();
     if (error != GL_NO_ERROR)
         printf("Attention erreur %d\n", error);
-	
+
     frame_count++;
-	final_time = time(NULL);
-	if (final_time - initial_time > 0) {
-		cout << "FPS : " << frame_count / (final_time - initial_time) << endl;
-		frame_count = 0;
-		initial_time = final_time;
-	}
+    final_time = time(NULL);
+    if (final_time - initial_time > 0) {
+        cout << "FPS : " << frame_count / (final_time - initial_time) << endl;
+        frame_count = 0;
+        initial_time = final_time;
+    }
 }
 
 static void displayTop(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    const GLfloat light0_position[] = { 20.0,10.0,0.0,1.0 };
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, rouge);
 
+    const GLfloat light1_position[] = { 0.0,-50.0,350.0,1.0 };
+    glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, jaune);
+
+    const GLfloat light2_position[] = { 32.0,-18.0,110.0,1.0 };
+    glLightfv(GL_LIGHT2, GL_POSITION, light2_position);
+    glLightfv(GL_LIGHT2, GL_DIFFUSE, blanc);
+
+    const GLfloat light3_position[] = { 30.0f, 40.0f, 90.0f,0.0 };
+    glLightfv(GL_LIGHT3, GL_POSITION, light3_position);
+    glLightfv(GL_LIGHT3, GL_DIFFUSE, noir);
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHT1);
+    glEnable(GL_LIGHT2);
+    glEnable(GL_LIGHT3);
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
     glPushMatrix();
     gluLookAt(
         p.getPosX(), 15 * TAILLE_PERSO, p.getPosY(),
         p.getPosX() - sin(p.getDir() * PI / 180), 0, p.getPosY() - cos(p.getDir() * PI / 180),
         0, 1, 0);
+    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
 
     scene();
     glPopMatrix();
@@ -151,13 +232,14 @@ static void idle(int) {
 static void keyboard(unsigned char key, int x, int y) {
     //printf("K  %4c %4d %4d\n", key, x, y);
     switch (key) {
-        case 'a':
-            animation = !animation;
-            break;
-        case 0x1B:
-            exit(0);
-            break;
+    case 'a':
+        animation = !animation;
+        break;
+    case 0x1B:
+        exit(0);
+        break;
     }
+
 }
 
 static void special(int specialKey, int x, int y) {
@@ -211,10 +293,10 @@ int main(int argc, char** argv) {
     glutSpecialFunc(special);
     glutMouseFunc(mouse);
     glutMotionFunc(mouseMotion);
-    glutTimerFunc((1000/FPS), idle, 0);
+    glutTimerFunc((1000 / FPS), idle, 0);
     glutReshapeFunc(reshape);
     glutDisplayFunc(displayPOV);
-    
+
     int w2 = glutCreateWindow("top view");
     init();
     glutKeyboardFunc(keyboard);
@@ -224,7 +306,7 @@ int main(int argc, char** argv) {
     glutTimerFunc((1000 / FPS), idle, 0);
     glutReshapeFunc(reshape);
     glutDisplayFunc(displayTop);
-    
+
     glutMainLoop();
     return(EXIT_SUCCESS);
 }
