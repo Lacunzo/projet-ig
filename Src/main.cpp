@@ -13,6 +13,8 @@ static const GLfloat rouge[] = { 1.0F,0.0F,0.0F,1.0F };
 static const GLfloat vert[] = { 0.0F,1.0F,0.0F,1.0F };
 static const GLfloat blanc[] = { 1.0F,1.0F,1.0F,1.0F };
 static const GLfloat brun[] = { 0.59F,0.34F,0.09F,1.0F };
+static const GLfloat magenta[] = { 1.0F,0.0F,1.0F,1.0F };
+static const GLfloat bleu[] = { 0.0F,0.0F,1.0F,1.0F };
 static const GLfloat noir[] = { 0.0F,0.0F,0.0F,1.0F };
 static const GLfloat gris[] = { 0.65F,0.65F,0.65F,1.0F };
 static const GLfloat blanc1[] = { 1.2F,1.2F,1.2F,1.0F };
@@ -50,12 +52,6 @@ static void init(void) {
     glEnable(GL_NORMALIZE);
 }
 static void configurationLumieres(void) {
-    const GLfloat magenta[] = { 1.0F,0.0F,1.0F,1.0F };
-    const GLfloat rouge[] = { 1.0F,0.0F,0.0F,1.0F };
-    const GLfloat vert[] = { 0.0F,1.0F,0.0F,1.0F };
-    const GLfloat bleu[] = { 0.0F,0.0F,1.0F,1.0F };
-    const GLfloat jaune[] = { 1.0F,1.0F,0.0F,1.0F };
-    const GLfloat grisMoyen[] = { 0.5F,0.5F,0.5F,1.0F };
     const GLfloat pos0[] = { 50.0F,27.0F,2.0F,1.0F };
     glLightfv(GL_LIGHT0, GL_POSITION, pos0);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, rouge);

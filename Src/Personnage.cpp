@@ -142,7 +142,8 @@ void Personnage::jambe(float angleCuisse, float angleTibia, float size) {
 
 //créé un personnage selon une taille et l'angle du corps
 void Personnage::corps(float size) {
-    glColor3f((double)rand() /RAND_MAX, (double)rand() / RAND_MAX, (double) rand() / RAND_MAX);
+    //glColor3f((double)rand() /RAND_MAX, (double)rand() / RAND_MAX, (double) rand() / RAND_MAX);
+    glColor3f(0.8, 0.8, 0.2);
     glPushMatrix();
     //repositionnement
     glRotatef(180,0,0,1);
