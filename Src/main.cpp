@@ -30,9 +30,13 @@ static bool animation = false;
 
 //personnage
 float TAILLE_PERSO = 2;
-Personnage p = Personnage(0, 5, TAILLE_PERSO);
+Personnage p = Personnage(0, 0, TAILLE_PERSO);
 bool animationAvancerPerso = false;
 int nbFrameOffset = 25;
+
+//fenêtres
+int fenetreTop;
+int fenetrePov;
 
 Map map = Map(50, 50);
 
@@ -40,6 +44,7 @@ static void init(void) {
     glLightf(GL_LIGHT0, GL_AMBIENT, 0.5);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
+    glEnable(GL_COLOR_MATERIAL);
     glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
@@ -102,10 +107,6 @@ static void scene(void) {
 }
 
 static void displayPOV(void) {
-    if (animation) {
-        glRotatef(1, 0, 1, 0);
-    }
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     const GLfloat light0_position[] = { 20.0,10.0,0.0,1.0 };
     glLightfv(GL_LIGHT0, GL_DIFFUSE, rouge);
@@ -133,6 +134,7 @@ static void displayPOV(void) {
         p.getPosX(), 2.2 * TAILLE_PERSO, p.getPosY(),
         p.getPosX() - sin(p.getDir() * PI / 180), 2.1 * TAILLE_PERSO, p.getPosY() - cos(p.getDir() * PI / 180),
         0, 1, 0);
+  
     glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
 
     scene();
@@ -143,14 +145,8 @@ static void displayPOV(void) {
     int error = glGetError();
     if (error != GL_NO_ERROR)
         printf("Attention erreur %d\n", error);
+    glutPostWindowRedisplay(fenetreTop);
 
-    frame_count++;
-    final_time = time(NULL);
-    if (final_time - initial_time > 0) {
-        cout << "FPS : " << frame_count / (final_time - initial_time) << endl;
-        frame_count = 0;
-        initial_time = final_time;
-    }
 }
 
 static void displayTop(void) {
@@ -217,11 +213,9 @@ static void reshape(int wx, int wy) {
     else {
         gluPerspective(70 / ratio, ratio, 1, 50);
     }
-    //glOrtho(-15.0, 15.0, -15*wy/wx, 15*wy/wx, -15.0, 20.0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    //glFrustum(-150.0, 150.0, -150 * wy / wx, 150 * wy / wx, -15.0, 200.0);
-    //gluLookAt(-2, 2.2 * TAILLE_PERSO, 0, 0, 0, 0, 0, 1, 0);
+
 }
 
 static void idle(int) {
@@ -287,7 +281,8 @@ int main(int argc, char** argv) {
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
     glutInitWindowSize(wTx, wTy);
     glutInitWindowPosition(wPx, wPy);
-    glutCreateWindow("�lu meilleur jeu 2022");
+
+    fenetrePov = glutCreateWindow("Rogue-like : Point of view");
     init();
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(special);
@@ -297,7 +292,10 @@ int main(int argc, char** argv) {
     glutReshapeFunc(reshape);
     glutDisplayFunc(displayPOV);
 
-    int w2 = glutCreateWindow("top view");
+    //deuxième fenêtre
+    
+    fenetreTop = glutCreateWindow("Rogue-like : Top view");
+
     init();
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(special);
