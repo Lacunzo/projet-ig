@@ -3,20 +3,20 @@
 #include "Cell.h"
 #include <iostream>
 #include <vector>
-using namespace std;
+#include <Room.h>
+#include <Leaf.h>
 
 class Map {
 	public:
 		int width;
 		int height;
-		vector<vector<Cell>> map;
+		vector<Leaf> leafs;
 		
-		Map();
 		Map(int width, int height);
-		virtual ~Map();
-
-		void generate();
-		void print();
+		
+		void createRooms();
+		void print() const;
 	private:
-		void createRoom(int posX, int posY, int sizeX, int sizeY);
+		const int MAX_LEAF_SIZE = 20;
+		void split_rec(Leaf *leaf, vector<Leaf> *leafs);
 };
