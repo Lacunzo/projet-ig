@@ -32,4 +32,8 @@ Pour la caméra vue d'en haut, elle se place aussi au coordonée du personnage, 
 
 ## Contrôles
 
-Pour déplacer le personnage, il faut utiliser les touches directionnelles, haut et bas pour avancer et reculer, droite et gauche pour changer son orientation.
+- Pour déplacer le personnage, il faut utiliser les touches directionnelles, haut et bas pour avancer et reculer, droite et gauche pour changer son orientation.
+- Button “d”: Changement de la couleur du Fond (le blanc , gris et noir) .
+- Button “b”: le passage en "full screen" et le retour en mode fenêtré normal.
+- Button “c” : Allumer ou éteindre les lumières.
+- Button “F1 F2” : gestion des lumières
