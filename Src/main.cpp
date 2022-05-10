@@ -421,6 +421,14 @@ static void special(int specialKey, int x, int y) {
     case GLUT_KEY_RIGHT:
         p.changerDirection(-5);
         break;
+    case GLUT_KEY_F1:
+        ligth1 = !ligth1;
+        break;
+
+    case GLUT_KEY_F2:
+        ligth2 = !ligth2;
+        break;
+    
     }
     glutPostRedisplay();
 }
