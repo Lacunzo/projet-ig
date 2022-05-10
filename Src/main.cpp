@@ -7,7 +7,6 @@
 #include <GL/glut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include "PNG/ChargePngFile.h"
 
 #define WIDTH 1200
 #define HEIGHT 900 
@@ -43,7 +42,6 @@ float TAILLE_PERSO = 2;
 Personnage p = Personnage(0, 0, TAILLE_PERSO);
 bool animationAvancerPerso = false;
 int nbFrameOffset = 25;
-
 
 
 
@@ -161,6 +159,7 @@ static void scene(void) {
 
     animationAvancerPerso = false;
     map.drawRooms();
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, rouge);
     glPopMatrix();
 }
 
@@ -228,6 +227,28 @@ static void displayPOV(void) {
     {
         glDisable(GL_LIGHT7);
     }
+    float tVert[4] = { 0.0F,1.0F,0.0F,1.0F };
+    static float c1 = 1.0F;
+    static float c2 = 1.0F;
+    static float c3 = 1.0F;
+    float t[4] = { c1,c2,c3,1.0F };
+    float t1[4] = { 1.0F,1.0F,1.0F,1.0F };
+    float t2[4] = { 0.4F,0.6F,0.8F,1.0F };
+    float tJaune[4] = { 1.0F,1.0F,0.0F,1.0F };
+
+    static int nbf = 50;
+    static float diffuse[4] = { 1.0F,1.0F,1.0F,1.0F };
+    static float ambiant3[4] = { 1.0F,1.0F,1.0F,1.0F };
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, t);
+    glLightfv(GL_LIGHT2, GL_DIFFUSE, tJaune);
+    glLightfv(GL_LIGHT3, GL_DIFFUSE, tVert);
+
+
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, t1);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, t2);
+    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 64.F);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambiant3);
     glMatrixMode(GL_MODELVIEW);
 
     glPushMatrix();
@@ -313,7 +334,28 @@ static void displayTop(void) {
     {
         glDisable(GL_LIGHT7);
     }
+    float tVert[4] = { 0.0F,1.0F,0.0F,1.0F };
+    static float c1 = 1.0F;
+    static float c2 = 1.0F;
+    static float c3 = 1.0F;
+    float t[4] = { c1,c2,c3,1.0F };
+    float t1[4] = { 1.0F,1.0F,1.0F,1.0F };
+    float t2[4] = { 0.4F,0.6F,0.8F,1.0F };
+    float tJaune[4] = { 1.0F,1.0F,0.0F,1.0F };
+ 
+    static int nbf = 50;
+    static float diffuse[4] = { 1.0F,1.0F,1.0F,1.0F };
+    static float ambiant3[4] = { 1.0F,1.0F,1.0F,1.0F };
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, t);
+    glLightfv(GL_LIGHT2, GL_DIFFUSE, tJaune);
+    glLightfv(GL_LIGHT3, GL_DIFFUSE, tVert);
 
+
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, t1);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, t2);
+    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 64.F);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambiant3);
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     gluLookAt(
