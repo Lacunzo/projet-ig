@@ -33,9 +33,6 @@
     <ClCompile Include="..\Src\Room.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\Cell.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Src\Leaf.cpp">
       <Filter>Src</Filter>
     </ClCompile>
@@ -60,9 +57,6 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Room.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Cell.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Leaf.h">

@@ -13,10 +13,9 @@ class Map {
 		vector<Leaf> leafs;
 		
 		Map(int width, int height);
-		
-		void createRooms();
-		void print() const;
+		void drawRooms();
 	private:
-		const int MAX_LEAF_SIZE = 20;
+		const int MAX_LEAF_SIZE = 40;
 		void split_rec(Leaf *leaf, vector<Leaf> *leafs);
+		void createRooms();
 };

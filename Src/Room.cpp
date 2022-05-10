@@ -40,5 +40,11 @@ void Room::draw() {
 		glVertex3d(x, HEIGHT, y + length);
 	glEnd();
 	// Draw door
+	glBegin(GL_QUADS);
+		glVertex3d(x, 0, y);
+		glVertex3d(x + width, 0, y);
+		glVertex3d(x + width, HEIGHT, y);
+		glVertex3d(x, HEIGHT, y);
+	glEnd();
 	glPopMatrix();
 }

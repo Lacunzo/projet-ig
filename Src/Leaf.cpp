@@ -38,17 +38,5 @@ bool Leaf::split() {
 
 void Leaf::print() const {
     cout << "Leaf: " << x << " " << y << " " << width << " " << height << endl;
-}
-
-void Leaf::prettyPrint() const {
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
-            if (i >= y && i < y + height && j >= x && j < x + width) {
-                cout << "*";
-            }
-            else {
-                cout << " ";
-            }
-        }
-    }
+    cout << "   Room: " << room->x << " " << room->y << " " << room->width << " " << room->length << endl;
 }

@@ -13,7 +13,6 @@ class Leaf {
 		
 		bool split();
 		void print() const;
-		void prettyPrint() const;		
 	private:
-		const int MIN_LEAF_SIZE = 10;
+		const int MIN_LEAF_SIZE = 30;
 };

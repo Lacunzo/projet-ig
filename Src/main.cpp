@@ -8,6 +8,7 @@
 #include <GL/glut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+
 static const GLfloat jaune[] = { 1.0F,1.0F,0.0F,1.0F };
 static const GLfloat rouge[] = { 1.0F,0.0F,0.0F,1.0F };
 static const GLfloat vert[] = { 0.0F,1.0F,0.0F,1.0F };
@@ -30,17 +31,15 @@ static int frame_count;
 
 static bool animation = false;
 
-//personnage
 float TAILLE_PERSO = 2;
 Personnage p = Personnage(0, 0, TAILLE_PERSO);
 bool animationAvancerPerso = false;
 int nbFrameOffset = 25;
 
-//fenêtres
 int fenetreTop;
 int fenetrePov;
 
-Map map = Map(50, 50);
+Map map = Map(100, 100);
 
 static void init(void) {
     glLightf(GL_LIGHT0, GL_AMBIENT, 0.5);
@@ -51,6 +50,7 @@ static void init(void) {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
 }
+
 static void configurationLumieres(void) {
     const GLfloat pos0[] = { 50.0F,27.0F,2.0F,1.0F };
     glLightfv(GL_LIGHT0, GL_POSITION, pos0);
@@ -96,9 +96,7 @@ static void scene(void) {
     }
 
     animationAvancerPerso = false;
-
-    map.createRooms();
-
+    map.drawRooms();
     glPopMatrix();
 }
 
@@ -167,8 +165,8 @@ static void displayTop(void) {
     glEnable(GL_LIGHT1);
     glEnable(GL_LIGHT2);
     glEnable(GL_LIGHT3);
+	
     glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
     glPushMatrix();
     gluLookAt(
         p.getPosX(), 15 * TAILLE_PERSO, p.getPosY(),
@@ -188,7 +186,6 @@ static void displayTop(void) {
     frame_count++;
     final_time = time(NULL);
     if (final_time - initial_time > 0) {
-        cout << "FPS : " << frame_count / (final_time - initial_time) << endl;
         frame_count = 0;
         initial_time = final_time;
     }
@@ -220,7 +217,6 @@ static void idle(int) {
 }
 
 static void keyboard(unsigned char key, int x, int y) {
-    //printf("K  %4c %4d %4d\n", key, x, y);
     switch (key) {
     case 'a':
         animation = !animation;
@@ -233,7 +229,6 @@ static void keyboard(unsigned char key, int x, int y) {
 }
 
 static void special(int specialKey, int x, int y) {
-    //printf("S  %4d %4d %4d\n", specialKey, x, y);
     switch (specialKey) {
     case GLUT_KEY_UP:
         animationAvancerPerso = true;
@@ -253,24 +248,11 @@ static void special(int specialKey, int x, int y) {
     glutPostRedisplay();
 }
 
-static void mouse(int button, int state, int x, int y) {
-    //printf("M  %4d %4d %4d %4d\n", button, state, x, y);
-}
-
-static void mouseMotion(int x, int y) {
-    //printf("MM %4d %4d\n", x, y);
-}
-
-static void passiveMouseMotion(int x, int y) {
-    //printf("PM %4d %4d\n", x, y);
-}
-
 static void clean(void) {
     printf("Bye\n");
 }
 
 int main(int argc, char** argv) {
-    map.print();
     atexit(clean);
 
     glutInit(&argc, argv);
@@ -282,21 +264,15 @@ int main(int argc, char** argv) {
     init();
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(special);
-    glutMouseFunc(mouse);
-    glutMotionFunc(mouseMotion);
     glutTimerFunc((1000 / FPS), idle, 0);
     glutReshapeFunc(reshape);
     glutDisplayFunc(displayPOV);
-
-    //deuxième fenêtre
     
     fenetreTop = glutCreateWindow("Rogue-like : Top view");
 
     init();
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(special);
-    glutMouseFunc(mouse);
-    glutMotionFunc(mouseMotion);
     glutTimerFunc((1000 / FPS), idle, 0);
     glutReshapeFunc(reshape);
     glutDisplayFunc(displayTop);
