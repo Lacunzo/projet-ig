@@ -28,8 +28,12 @@ static int wPy = (glutGet(GLUT_SCREEN_HEIGHT) - wTy) / 2;
 static int initial_time = time(NULL);
 static int final_time;
 static int frame_count;
+static int cFond = 0;              // Numero de la couleur de fond (0: gris, 1: blanc, 2:noir)
+
 
 static bool animation = false;
+static float spotDir[3] = { 0.0, -1.0,0.0 };
+const GLfloat spotCutOff = 20.0;
 
 float TAILLE_PERSO = 2;
 Personnage p = Personnage(0, 0, TAILLE_PERSO);
@@ -38,43 +42,91 @@ int nbFrameOffset = 25;
 
 int fenetreTop;
 int fenetrePov;
+bool ligth1 = true, ligth2 = true, ligth3 = true, ligth4 = true, ligth5 = true;
 
 Map map = Map(100, 100);
 
 static void init(void) {
+    const GLfloat shininess[] = { 50.0 };
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
     glLightf(GL_LIGHT0, GL_AMBIENT, 0.5);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, rouge);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, jaune);
+    glLightfv(GL_LIGHT2, GL_DIFFUSE, bleu);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHT1);
+    glEnable(GL_LIGHT2);
+    glEnable(GL_LIGHT3);
+    glEnable(GL_LIGHT4);
+    glEnable(GL_LIGHT5);
+    glEnable(GL_LIGHT6);
+    glEnable(GL_LIGHT7);
+    glEnable(GL_LIGHTING);
     glEnable(GL_COLOR_MATERIAL);
     glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
 }
 
-static void configurationLumieres(void) {
-    const GLfloat pos0[] = { 50.0F,27.0F,2.0F,1.0F };
-    glLightfv(GL_LIGHT0, GL_POSITION, pos0);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, rouge);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, noir);
-    glLightfv(GL_LIGHT0, GL_AMBIENT, noir);
-    const GLfloat pos1[] = { -2.0F,0.0F,4.0F,0.0F };
-    glLightfv(GL_LIGHT1, GL_POSITION, pos1);
-    glLightfv(GL_LIGHT1, GL_DIFFUSE, vert);
-    glLightfv(GL_LIGHT1, GL_SPECULAR, blanc);
-    glLightfv(GL_LIGHT1, GL_AMBIENT, noir);
-    const GLfloat pos2[] = { -3.0F,-3.0F, 15.0F,1.0F };
-    const GLfloat dir2[] = { 3.0F, 3.0F,-10.0F };
-    glLightfv(GL_LIGHT2, GL_POSITION, pos2);
-    glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, dir2);
-    glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 20.0F);
-    glLightfv(GL_LIGHT2, GL_DIFFUSE, bleu);
-    glLightfv(GL_LIGHT2, GL_SPECULAR, jaune);
-    glLightfv(GL_LIGHT2, GL_AMBIENT, noir);
-    const GLfloat pos3[] = { 0.0F,0.0F,0.0F,1.0F };
-    glLightfv(GL_LIGHT3, GL_POSITION, pos3);
-    glLightfv(GL_LIGHT3, GL_DIFFUSE, noir);
-    glLightfv(GL_LIGHT3, GL_SPECULAR, noir);
-    glLightfv(GL_LIGHT3, GL_AMBIENT, magenta);
+void lighting1()
+{
+
+    GLfloat pos[4] = { p.getPosX(),p.getPosY(), -20.0, 1.0 };
+    glLightfv(GL_LIGHT3, GL_DIFFUSE, blanc);
+    glLightfv(GL_LIGHT3, GL_POSITION, pos);
+    glEnable(GL_LIGHT3);
+}
+
+void lighting2()
+{
+    GLfloat pos[4] = { p.getPosX(),p.getPosY(), -1.0, 0.0 };
+    glLightfv(GL_LIGHT4, GL_POSITION, pos);
+    glLightfv(GL_LIGHT4, GL_DIFFUSE, vert);
+    glLightfv(GL_LIGHT4, GL_SPECULAR, blanc);
+    glEnable(GL_LIGHT4);
+}
+
+void lighting3()
+{
+    GLfloat pos[4] = { -3.0,-3.0, 15.0, 1.0 };
+    glLightfv(GL_LIGHT5, GL_DIFFUSE, vert);
+    glLightfv(GL_LIGHT5, GL_POSITION, pos);
+    glLightfv(GL_LIGHT5, GL_SPOT_DIRECTION, spotDir);
+    glLightf(GL_LIGHT5, GL_SPOT_CUTOFF, spotCutOff);
+    glEnable(GL_LIGHT5);
+}
+
+
+void lighting4()
+{
+    GLfloat pos[4] = { 0.0,0.0,0.0,1.0 };
+
+    glLightfv(GL_LIGHT6, GL_DIFFUSE, vert);
+    glLightfv(GL_LIGHT6, GL_POSITION, pos);
+    glLightfv(GL_LIGHT6, GL_SPOT_DIRECTION, spotDir);
+    glLightf(GL_LIGHT6, GL_SPOT_CUTOFF, spotCutOff);
+    glEnable(GL_LIGHT6);
+}
+
+void lighting5()
+{
+    GLfloat pos[4] = { -1.0,1.0,1.0,0.0 };
+    glLightfv(GL_LIGHT7, GL_DIFFUSE, vert);
+    glLightfv(GL_LIGHT7, GL_POSITION, pos);
+    glLightfv(GL_LIGHT7, GL_SPOT_DIRECTION, spotDir);
+    glLightf(GL_LIGHT7, GL_SPOT_CUTOFF, spotCutOff);
+    glEnable(GL_LIGHT7);
+}
+
+void lighting6()
+{
+    GLfloat pos[4] = { -1.0,1.0,1.0,0.0 };
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, vert);
+    glLightfv(GL_LIGHT0, GL_POSITION, pos);
+    glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spotDir);
+    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, spotCutOff);
+    glEnable(GL_LIGHT0);
 }
 
 
@@ -101,26 +153,69 @@ static void scene(void) {
 }
 
 static void displayPOV(void) {
+    const float* fond;
+    switch (cFond) {
+    case 0:
+        fond = gris;
+        break;
+    case 1:
+        fond = blanc;
+        break;
+    case 2:
+        fond = noir;
+        break;
+    }
+    glClearColor(fond[0], fond[1], fond[2], fond[3]);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    const GLfloat light0_position[] = { 20.0,10.0,0.0,1.0 };
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, rouge);
-
-    const GLfloat light1_position[] = { 0.0,-50.0,350.0,1.0 };
+    const GLfloat light0_position[] = { 0.0,0.0,0.0,1.0 };
+    const GLfloat light1_position[] = { -1.0,1.0,1.0,0.0 };
+    const GLfloat light2_position[] = { 1.0,-1.0,1.0,0.0 };
+    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
     glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
-    glLightfv(GL_LIGHT1, GL_DIFFUSE, jaune);
-
-    const GLfloat light2_position[] = { 32.0,-18.0,110.0,1.0 };
     glLightfv(GL_LIGHT2, GL_POSITION, light2_position);
-    glLightfv(GL_LIGHT2, GL_DIFFUSE, blanc);
 
-    const GLfloat light3_position[] = { 30.0f, 40.0f, 90.0f,0.0 };
-    glLightfv(GL_LIGHT3, GL_POSITION, light3_position);
-    glLightfv(GL_LIGHT3, GL_DIFFUSE, noir);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-    glEnable(GL_LIGHT1);
-    glEnable(GL_LIGHT2);
-    glEnable(GL_LIGHT3);
+    if (ligth1 == true)
+    {
+        lighting1();
+    }
+    else
+    {
+        glDisable(GL_LIGHT3);
+    }
+
+    if (ligth2 == true)
+    {
+        lighting2();
+    }
+    else
+    {
+        glDisable(GL_LIGHT4);
+    }
+
+    if (ligth3 == true)
+    {
+        lighting3();
+    }
+    else
+    {
+        glDisable(GL_LIGHT5);
+    }
+    if (ligth4 == true)
+    {
+        lighting4();
+    }
+    else
+    {
+        glDisable(GL_LIGHT6);
+    }
+    if (ligth5 == true)
+    {
+        lighting3();
+    }
+    else
+    {
+        glDisable(GL_LIGHT7);
+    }
     glMatrixMode(GL_MODELVIEW);
 
     glPushMatrix();
@@ -129,8 +224,6 @@ static void displayPOV(void) {
         p.getPosX() - sin(p.getDir() * PI / 180), 2.1 * TAILLE_PERSO, p.getPosY() - cos(p.getDir() * PI / 180),
         0, 1, 0);
   
-    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-
     scene();
     glPopMatrix();
 
@@ -144,36 +237,77 @@ static void displayPOV(void) {
 }
 
 static void displayTop(void) {
+
+    const float* fond;
+    switch (cFond) {
+    case 0:
+        fond = gris;
+        break;
+    case 1:
+        fond = blanc;
+        break;
+    case 2:
+        fond = noir;
+        break;
+    }
+    glClearColor(fond[0], fond[1], fond[2], fond[3]);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    const GLfloat light0_position[] = { 20.0,10.0,0.0,1.0 };
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, rouge);
-
-    const GLfloat light1_position[] = { 0.0,-50.0,350.0,1.0 };
+    const GLfloat light0_position[] = { 0.0,0.0,0.0,1.0 };
+    const GLfloat light1_position[] = { -1.0,1.0,1.0,0.0 };
+    const GLfloat light2_position[] = { 1.0,-1.0,1.0,0.0 };
+    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
     glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
-    glLightfv(GL_LIGHT1, GL_DIFFUSE, jaune);
-
-    const GLfloat light2_position[] = { 32.0,-18.0,110.0,1.0 };
     glLightfv(GL_LIGHT2, GL_POSITION, light2_position);
-    glLightfv(GL_LIGHT2, GL_DIFFUSE, blanc);
 
-    const GLfloat light3_position[] = { 30.0f, 40.0f, 90.0f,0.0 };
-    glLightfv(GL_LIGHT3, GL_POSITION, light3_position);
-    glLightfv(GL_LIGHT3, GL_DIFFUSE, noir);
+    if (ligth1 == true)
+    {
+        lighting1();
+    }
+    else
+    {
+        glDisable(GL_LIGHT3);
+    }
 
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-    glEnable(GL_LIGHT1);
-    glEnable(GL_LIGHT2);
-    glEnable(GL_LIGHT3);
-	
+    if (ligth2 == true)
+    {
+        lighting2();
+    }
+    else
+    {
+        glDisable(GL_LIGHT4);
+    }
+
+    if (ligth3 == true)
+    {
+        lighting3();
+    }
+    else
+    {
+        glDisable(GL_LIGHT5);
+    }
+    if (ligth4 == true)
+    {
+        lighting4();
+    }
+    else
+    {
+        glDisable(GL_LIGHT6);
+    }
+    if (ligth5 == true)
+    {
+        lighting3();
+    }
+    else
+    {
+        glDisable(GL_LIGHT7);
+    }
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     gluLookAt(
         p.getPosX(), 15 * TAILLE_PERSO, p.getPosY(),
         p.getPosX() - sin(p.getDir() * PI / 180), 0, p.getPosY() - cos(p.getDir() * PI / 180),
         0, 1, 0);
-    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-
+  
     scene();
     glPopMatrix();
 
