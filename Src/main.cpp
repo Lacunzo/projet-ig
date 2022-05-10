@@ -4,17 +4,20 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-
 #include <GL/glut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include "PNG/ChargePngFile.h"
+
+#define WIDTH 1200
+#define HEIGHT 900 
+int nFullScreen = 1;
 
 static const GLfloat jaune[] = { 1.0F,1.0F,0.0F,1.0F };
 static const GLfloat rouge[] = { 1.0F,0.0F,0.0F,1.0F };
 static const GLfloat vert[] = { 0.0F,1.0F,0.0F,1.0F };
 static const GLfloat blanc[] = { 1.0F,1.0F,1.0F,1.0F };
 static const GLfloat brun[] = { 0.59F,0.34F,0.09F,1.0F };
-static const GLfloat magenta[] = { 1.0F,0.0F,1.0F,1.0F };
 static const GLfloat bleu[] = { 0.0F,0.0F,1.0F,1.0F };
 static const GLfloat noir[] = { 0.0F,0.0F,0.0F,1.0F };
 static const GLfloat gris[] = { 0.65F,0.65F,0.65F,1.0F };
@@ -31,20 +34,27 @@ static int frame_count;
 static int cFond = 0;              // Numero de la couleur de fond (0: gris, 1: blanc, 2:noir)
 
 
-static bool animation = false;
-static float spotDir[3] = { 0.0, -1.0,0.0 };
+bool ligth1 = true, ligth2 = true, ligth3 = true, ligth4 = true, ligth5 = true;
+static float spotDir[3] = { 0.0, 1.0,0.0 };
 const GLfloat spotCutOff = 20.0;
 
+static bool animation = false;
 float TAILLE_PERSO = 2;
 Personnage p = Personnage(0, 0, TAILLE_PERSO);
 bool animationAvancerPerso = false;
 int nbFrameOffset = 25;
 
+
+
+
 int fenetreTop;
 int fenetrePov;
-bool ligth1 = true, ligth2 = true, ligth3 = true, ligth4 = true, ligth5 = true;
+
+
 
 Map map = Map(100, 100);
+
+
 
 static void init(void) {
     const GLfloat shininess[] = { 50.0 };
@@ -67,6 +77,8 @@ static void init(void) {
     glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
+   
+   
 }
 
 void lighting1()
@@ -237,7 +249,7 @@ static void displayPOV(void) {
 }
 
 static void displayTop(void) {
-
+   
     const float* fond;
     switch (cFond) {
     case 0:
@@ -301,6 +313,7 @@ static void displayTop(void) {
     {
         glDisable(GL_LIGHT7);
     }
+
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     gluLookAt(
@@ -358,8 +371,38 @@ static void keyboard(unsigned char key, int x, int y) {
     case 0x1B:
         exit(0);
         break;
-    }
+    case 'b':
+        if (nFullScreen == 0)
+        {
+            glutFullScreen();
+            nFullScreen = 1;
+            break;
+        }
+        if (nFullScreen == 1)
+        {
+            glutReshapeWindow(WIDTH, HEIGHT);
+            glutPositionWindow(50, 50);
+            nFullScreen = 0;
+            break;
+        }
 
+    case 'c':
+        if (glIsEnabled(GL_LIGHTING) == true)
+        {
+            glDisable(GL_LIGHTING);
+        }
+        else
+        {
+            glEnable(GL_LIGHTING);
+        }
+        break;
+
+    case 'd':
+    { cFond = (cFond + 1) % 3;
+    glutPostRedisplay(); }
+    break;
+
+    }
 }
 
 static void special(int specialKey, int x, int y) {
